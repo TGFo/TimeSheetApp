@@ -25,8 +25,10 @@ class LoginActivity : AppCompatActivity() {
         val emailEditText: EditText = findViewById(R.id.emailEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
         val loginButton: Button = findViewById(R.id.loginButton)
-        val forgotPasswordTextView: TextView = findViewById(R.id.forgotPasswordTextView)  // Forgot Password TextView
+        val registerTextView: TextView = findViewById(R.id.registerTextView)
+        val forgotPasswordTextView: TextView = findViewById(R.id.forgotPasswordTextView)
 
+        // Login Button
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -75,6 +77,12 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
+        }
+
+        // Navigate to RegistrationActivity when clicking "Register here"
+        registerTextView.setOnClickListener {
+            val intent = Intent(this, RegistrationActivity::class.java)
+            startActivity(intent)
         }
     }
 }
