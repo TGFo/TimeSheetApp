@@ -27,7 +27,13 @@ class LoginActivity : AppCompatActivity() {
         val loginButton: Button = findViewById(R.id.loginButton)
         val registerTextView: TextView = findViewById(R.id.registerTextView)
         val forgotPasswordTextView: TextView = findViewById(R.id.forgotPasswordTextView)
+        val skipLoginButton : Button = findViewById(R.id.skipLoginButton)
 
+        skipLoginButton.setOnClickListener()
+        {
+            startActivity(Intent(this, CetegoriesActivity :: class.java))
+            finish()
+        }
         // Login Button
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -49,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, navigate to MainActivity
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, CetegoriesActivity::class.java))
                         finish()  // Close the login activity
                     } else {
                         // If sign in fails, display a message to the user
