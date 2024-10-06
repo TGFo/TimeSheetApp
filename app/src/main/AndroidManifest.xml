@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimeSheetApp">
         <activity
-            android:name=".CetegoriesActivity"
+            android:name=".CategoriesActivity"
             android:exported="false" />
         <!-- MainActivity: Entry point of the app -->
         <activity
@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistrationActivity" />
+        <activity android:name=".TimesheetsCreateActivity" />
+        <activity android:name=".TimesheetsActivity" />
     </application>
 
 </manifest>

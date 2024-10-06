@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
         skipLoginButton.setOnClickListener()
         {
-            startActivity(Intent(this, CetegoriesActivity :: class.java))
+            startActivity(Intent(this, CategoriesActivity :: class.java))
             finish()
         }
         // Login Button
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, navigate to MainActivity
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, CetegoriesActivity::class.java))
+                        startActivity(Intent(this, CategoriesActivity::class.java))
                         finish()  // Close the login activity
                     } else {
                         // If sign in fails, display a message to the user
