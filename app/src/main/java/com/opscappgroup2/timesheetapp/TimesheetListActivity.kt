@@ -1,7 +1,8 @@
 package com.opscappgroup2.timesheetapp
-
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -10,6 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,11 +25,22 @@ class TimesheetListActivity : AppCompatActivity() {
     private lateinit var endDateTextView: TextView
     private lateinit var timesheetRecyclerView: RecyclerView
     private lateinit var backToNavigationButton: Button
-    private val timesheets = mutableListOf<Timesheet>()
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var auth: FirebaseAuth
+    private lateinit var userId: String
+    private val timesheets = mutableListOf<Timesheet>() // All timesheets for the user
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timesheets_list)
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        userId = currentUser?.uid ?: "default_user"
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("UserTimesheets", Context.MODE_PRIVATE)
 
         selectStartDateButton = findViewById(R.id.selectStartDateButton)
         selectEndDateButton = findViewById(R.id.selectEndDateButton)
@@ -39,10 +54,11 @@ class TimesheetListActivity : AppCompatActivity() {
         val adapter = TimesheetsAdapter(timesheets)
         timesheetRecyclerView.adapter = adapter
 
+        // Back to navigation
         backToNavigationButton.setOnClickListener {
-
             finish()
         }
+
         // Select start date
         selectStartDateButton.setOnClickListener {
             showDatePickerDialog { date ->
@@ -98,14 +114,20 @@ class TimesheetListActivity : AppCompatActivity() {
     }
 
     private fun loadTimesheets(adapter: TimesheetsAdapter) {
-        // Load timesheets from your data source (database or API)
-        val mockTimesheets = listOf(
-            Timesheet("2024-10-01", "09:00 AM", "05:00 PM", "Worked on project A", "photo_uri_1", "Category 1"),
-            Timesheet("2024-10-03", "10:00 AM", "06:00 PM", "Completed task B", "photo_uri_2", "Category 1"),
-            Timesheet("2024-10-05", "11:00 AM", "04:00 PM", "Reviewed task C", null, "Category 2")
-        )
-        timesheets.addAll(mockTimesheets)
-        adapter.notifyDataSetChanged()
+        // Load timesheets for the current user from SharedPreferences
+        val jsonTimesheets = sharedPreferences.getString(userId + "_timesheets", null)
+        if (!jsonTimesheets.isNullOrEmpty()) {
+            val gson = Gson()
+            val type = object : TypeToken<MutableList<Timesheet>>() {}.type
+            val savedTimesheets: MutableList<Timesheet> = gson.fromJson(jsonTimesheets, type)
+
+            // Clear current list and add the loaded timesheets to the local list
+            timesheets.clear()
+            timesheets.addAll(savedTimesheets)
+            adapter.notifyDataSetChanged()
+        } else {
+            Toast.makeText(this, "No timesheets found.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun String.toDate(): Date? {
