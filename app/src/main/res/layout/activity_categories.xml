@@ -30,5 +30,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
         android:text="Create New Timesheet" />
+    <Button
+        android:id="@+id/backToNavigationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Navigation"
+        android:layout_gravity="center"
+        android:paddingTop="16dp" />
 
 </LinearLayout>

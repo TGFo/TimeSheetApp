@@ -1,5 +1,6 @@
 package com.opscappgroup2.timesheetapp
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import java.util.Calendar
 
 @Suppress("DEPRECATION")
 class TimesheetsCreateActivity : AppCompatActivity() {
@@ -36,6 +38,11 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapter
 
+        dateEditText.setOnClickListener {
+            showDatePickerDialog { date ->
+                dateEditText.setText(date)
+            }
+        }
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -74,6 +81,20 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         }
     }
 
+        private fun showDatePickerDialog(onDateSelected: (String) -> Unit) {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                // Format the selected date as a string
+                val date = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                onDateSelected(date)
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
     private fun validateFields(
         date: String,
         startTime: String,

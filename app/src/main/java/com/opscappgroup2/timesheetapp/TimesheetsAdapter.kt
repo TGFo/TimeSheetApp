@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TimesheetsAdapter(private val timesheets: List<Timesheet>) :
-    RecyclerView.Adapter<TimesheetsAdapter.TimesheetViewHolder>() {
+class TimesheetsAdapter(
+    private var timesheets: List<Timesheet> // Removed onTimesheetClick
+) : RecyclerView.Adapter<TimesheetsAdapter.TimesheetViewHolder>() {
 
     class TimesheetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
@@ -31,5 +32,10 @@ class TimesheetsAdapter(private val timesheets: List<Timesheet>) :
 
     override fun getItemCount(): Int {
         return timesheets.size
+    }
+
+    fun updateTimesheets(newTimesheets: List<Timesheet>) {
+        timesheets = newTimesheets
+        notifyDataSetChanged()
     }
 }

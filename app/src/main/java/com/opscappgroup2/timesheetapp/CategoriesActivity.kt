@@ -1,7 +1,9 @@
 package com.opscappgroup2.timesheetapp
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -12,14 +14,25 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class CategoriesActivity : AppCompatActivity() {
+
     private val categories = mutableListOf<Category>()
     private lateinit var adapter: CategoriesAdapter
+    private lateinit var backToNavigationButton: Button
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories)
+
+        sharedPreferences = getSharedPreferences("CategoriesPrefs", MODE_PRIVATE)
+
+        // Load categories from SharedPreferences
+        loadCategories()
 
         // Set up RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.categoriesRecyclerView)
@@ -27,32 +40,36 @@ class CategoriesActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Populate with some initial categories
-        setUpCategories()
+        backToNavigationButton = findViewById(R.id.backToNavigationButton)
+        backToNavigationButton.setOnClickListener {
+            saveCategories() // Save categories before navigating away
+            finish()
+        }
 
         // Set up the "Create Category" button
         val createCategoryButton: View = findViewById(R.id.createCategoryButton)
         createCategoryButton.setOnClickListener {
             showCreateCategoryDialog()
         }
-        // Handle button to navigate to TimesheetsCreateActivity
-        val openTimesheetButton: Button = findViewById(R.id.openTimesheetButton)
-        openTimesheetButton.setOnClickListener {
-            val intent = Intent(this, TimesheetsCreateActivity::class.java)
-            startActivity(intent)
-        }
     }
 
-    private fun deleteCategory(category: Category) {
-        categories.remove(category) // Remove category from list
-        adapter.notifyDataSetChanged() // Notify adapter that data set has changed
+    // Save categories to SharedPreferences as JSON
+    private fun saveCategories() {
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val json = gson.toJson(categories)
+        editor.putString("categories_list", json)
+        editor.apply()
     }
-    // Method to set up initial categories
-    private fun setUpCategories() {
-        val testNames = listOf("1", "2", "3", "4", "5")
-        val testDescriptions = listOf("desc1", "desc2", "desc3", "desc4", "desc5")
-        for (i in testNames.indices) {
-            categories.add(Category(testNames[i], testDescriptions[i]))
+
+    // Load categories from SharedPreferences
+    private fun loadCategories() {
+        val gson = Gson()
+        val json = sharedPreferences.getString("categories_list", null)
+        if (json != null) {
+            val type = object : TypeToken<List<Category>>() {}.type
+            val savedCategories: List<Category> = gson.fromJson(json, type)
+            categories.addAll(savedCategories)
         }
     }
 
@@ -73,6 +90,7 @@ class CategoriesActivity : AppCompatActivity() {
                     // Add new category to the list
                     categories.add(Category(categoryName, categoryDescription))
                     adapter.notifyDataSetChanged() // Notify adapter to refresh the list
+                    saveCategories() // Save the updated list
                 } else {
                     Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 }
@@ -81,5 +99,11 @@ class CategoriesActivity : AppCompatActivity() {
             .create()
 
         dialog.show()
+    }
+
+    private fun deleteCategory(category: Category) {
+        categories.remove(category)
+        adapter.notifyDataSetChanged()
+        saveCategories() // Save the updated list after deletion
     }
 }

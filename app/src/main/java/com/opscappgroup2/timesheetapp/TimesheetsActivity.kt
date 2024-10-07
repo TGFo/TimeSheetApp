@@ -1,5 +1,6 @@
 package com.opscappgroup2.timesheetapp
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ class TimesheetsActivity : AppCompatActivity() {
     private lateinit var categoryTextView: TextView
     private lateinit var timesheetsRecyclerView: RecyclerView
     private val timesheets = mutableListOf<Timesheet>() // Timesheets list
+    private lateinit var backToNavigationButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +19,12 @@ class TimesheetsActivity : AppCompatActivity() {
 
         categoryTextView = findViewById(R.id.categoryTextView)
         timesheetsRecyclerView = findViewById(R.id.timesheetsRecyclerView)
+        backToNavigationButton = findViewById(R.id.backToNavigationButton)
 
+        backToNavigationButton.setOnClickListener {
+
+            finish()
+        }
         // Get the category name from the Intent
         val categoryName = intent.getStringExtra("categoryName") ?: "No Category"
 

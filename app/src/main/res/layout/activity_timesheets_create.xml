@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Enter date" />
+        android:hint="Enter date"
+        android:focusable="false"/>
 
 
     <TextView
@@ -94,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save Timesheet Entry" />
+
 
 
 </LinearLayout>

@@ -12,7 +12,7 @@
         <activity
             android:name=".CategoriesActivity"
             android:exported="false" />
-        <!-- MainActivity: Entry point of the app -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -26,6 +26,9 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".TimesheetsCreateActivity" />
         <activity android:name=".TimesheetsActivity" />
+        <activity android:name=".NavigationActivity" />
+        <activity android:name=".HoursActivity" />
+        <activity android:name=".TimesheetListActivity" />
     </application>
 
 </manifest>
