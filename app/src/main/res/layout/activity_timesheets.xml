@@ -29,7 +29,7 @@
         android:id="@+id/backToNavigationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to Navigation"
+        android:text="Back to Categories"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
