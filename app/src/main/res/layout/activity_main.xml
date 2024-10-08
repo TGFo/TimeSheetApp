@@ -3,39 +3,41 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#ffffff">
+    android:gravity="center"
+    android:background="@drawable/background_gradient"
+    android:padding="16dp">
 
-    <!-- Title -->
-<TextView
-android:id="@+id/titleTextView"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="CHUDDY"
-android:textSize="24sp"
-android:textColor="#000000"
-android:textStyle="bold"
-android:layout_marginBottom="16dp" />
 
-    <!-- Welcome message -->
-<TextView
-android:id="@+id/welcomeMessageTextView"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Making Timesheets Fun"
-android:textSize="18sp"
-android:textColor="#555555"
-android:layout_marginBottom="24dp" />
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@mipmap/ic_logo"
+        android:layout_gravity="center"
+        android:contentDescription="Logo"
+        android:layout_marginBottom="24dp" />
 
-    <!-- Press to start instruction -->
-<TextView
-android:id="@+id/pressToStartTextView"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Press anywhere to start"
-android:textSize="16sp"
-android:textColor="#000000"
-android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/welcomeMessageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:text="Making Timesheets Fun"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/pressToStartTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Press anywhere to start"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:textSize="25sp"
+        android:textStyle="italic" />
     </LinearLayout>

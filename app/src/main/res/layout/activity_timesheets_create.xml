@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date" />
+        android:text="Date"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
     <EditText
         android:id="@+id/dateEditText"
         android:layout_width="match_parent"
@@ -17,52 +20,72 @@
         android:minHeight="48dp"
         android:padding="12dp"
         android:hint="Enter date"
-        android:focusable="false"/>
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:focusable="false"
+        android:background="@drawable/input_field_background"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Time" />
+        android:text="Start Time"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
     <EditText
         android:id="@+id/startTimeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Enter start time" />
+        android:hint="Enter start time e.g. 08:00"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/input_field_background"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="End Time" />
+        android:text="End Time"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
     <EditText
         android:id="@+id/endTimeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Enter end time" />
+        android:hint="Enter end time e.g. 22:00"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/input_field_background"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description" />
+        android:text="Description"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
     <EditText
         android:id="@+id/descriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Enter description" />
+        android:hint="Enter description"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/input_field_background"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Category"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:textSize="16sp" />
 
     <Spinner
@@ -71,7 +94,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:minHeight="48dp"
-        android:padding="12dp"/>
+        android:padding="12dp"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
 
 
 
@@ -79,7 +104,10 @@
         android:id="@+id/addPhotoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Photo" />
+        android:text="Add Photo"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/button_background"/>
 
 
     <ImageView
@@ -94,7 +122,10 @@
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Timesheet Entry" />
+        android:text="Save Timesheet Entry"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/button_background"/>
 
 
 

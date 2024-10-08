@@ -3,20 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
 
     <EditText
         android:id="@+id/categoryNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Category Name"
-        android:inputType="text" />
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:inputType="text"
+        android:background="@drawable/input_field_background"
+        android:minHeight="48dp"
+        />
+
 
     <EditText
         android:id="@+id/categoryDescEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Category Description"
-        android:inputType="text" />
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:inputType="text"
+        android:background="@drawable/input_field_background"
+        android:minHeight="48dp"
+        />
 
 </LinearLayout>

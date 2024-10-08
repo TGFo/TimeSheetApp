@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class TimesheetsAdapter(
-    private var timesheets: List<Timesheet> // Removed onTimesheetClick
+    private var timesheets: List<Timesheet>
 ) : RecyclerView.Adapter<TimesheetsAdapter.TimesheetViewHolder>() {
 
     class TimesheetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

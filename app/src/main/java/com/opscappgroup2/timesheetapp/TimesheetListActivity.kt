@@ -28,18 +28,17 @@ class TimesheetListActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
     private lateinit var userId: String
-    private val timesheets = mutableListOf<Timesheet>() // All timesheets for the user
+    private val timesheets = mutableListOf<Timesheet>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timesheets_list)
 
-        // Initialize Firebase Auth
+
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         userId = currentUser?.uid ?: "default_user"
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserTimesheets", Context.MODE_PRIVATE)
 
         selectStartDateButton = findViewById(R.id.selectStartDateButton)
@@ -49,17 +48,14 @@ class TimesheetListActivity : AppCompatActivity() {
         timesheetRecyclerView = findViewById(R.id.timesheetRecyclerView)
         backToNavigationButton = findViewById(R.id.backToNavigationButton)
 
-        // Set up RecyclerView
         timesheetRecyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = TimesheetsAdapter(timesheets)
         timesheetRecyclerView.adapter = adapter
 
-        // Back to navigation
         backToNavigationButton.setOnClickListener {
             finish()
         }
 
-        // Select start date
         selectStartDateButton.setOnClickListener {
             showDatePickerDialog { date ->
                 startDateTextView.text = date
@@ -67,7 +63,6 @@ class TimesheetListActivity : AppCompatActivity() {
             }
         }
 
-        // Select end date
         selectEndDateButton.setOnClickListener {
             showDatePickerDialog { date ->
                 endDateTextView.text = date
@@ -75,7 +70,6 @@ class TimesheetListActivity : AppCompatActivity() {
             }
         }
 
-        // Load the initial timesheets (without date filtering)
         loadTimesheets(adapter)
     }
 
@@ -103,7 +97,7 @@ class TimesheetListActivity : AppCompatActivity() {
 
             if (startDate != null && endDate != null) {
                 val filteredTimesheets = timesheets.filter {
-                    val timesheetDate = it.date.toDate() // Convert timesheet date to Date object
+                    val timesheetDate = it.date.toDate()
                     timesheetDate != null && (timesheetDate == startDate || timesheetDate == endDate ||
                             (timesheetDate.after(startDate) && timesheetDate.before(endDate)))
                 }
@@ -114,14 +108,12 @@ class TimesheetListActivity : AppCompatActivity() {
     }
 
     private fun loadTimesheets(adapter: TimesheetsAdapter) {
-        // Load timesheets for the current user from SharedPreferences
         val jsonTimesheets = sharedPreferences.getString(userId + "_timesheets", null)
         if (!jsonTimesheets.isNullOrEmpty()) {
             val gson = Gson()
             val type = object : TypeToken<MutableList<Timesheet>>() {}.type
             val savedTimesheets: MutableList<Timesheet> = gson.fromJson(jsonTimesheets, type)
 
-            // Clear current list and add the loaded timesheets to the local list
             timesheets.clear()
             timesheets.addAll(savedTimesheets)
             adapter.notifyDataSetChanged()
@@ -135,7 +127,7 @@ class TimesheetListActivity : AppCompatActivity() {
             val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             format.parse(this)
         } catch (e: Exception) {
-            null // If there's an error, return null
+            null
         }
     }
 

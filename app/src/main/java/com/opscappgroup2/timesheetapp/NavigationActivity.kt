@@ -14,26 +14,21 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
-        // Initialize buttons
         buttonCategories = findViewById(R.id.buttonCategories)
         buttonHours = findViewById(R.id.buttonHours)
         buttonTimesheetList = findViewById(R.id.buttonTimesheetList)
 
-        // Set up click listeners for navigation
         buttonCategories.setOnClickListener {
-            // Navigate to CategoriesActivity
             val intent = Intent(this, CategoriesActivity::class.java)
             startActivity(intent)
         }
 
         buttonHours.setOnClickListener {
-            // Navigate to HoursActivity
             val intent = Intent(this, HoursActivity::class.java)
             startActivity(intent)
         }
 
         buttonTimesheetList.setOnClickListener {
-            // Navigate to TimesheetListActivity
             val intent = Intent(this, TimesheetListActivity::class.java)
             startActivity(intent)
         }

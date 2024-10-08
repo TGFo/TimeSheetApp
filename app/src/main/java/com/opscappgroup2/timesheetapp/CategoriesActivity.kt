@@ -33,35 +33,28 @@ class CategoriesActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        // Get the current logged-in user's UID (this will be the unique key to save their data)
         val currentUser = auth.currentUser
         userId = currentUser?.uid ?: "default_user"
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserCategories", Context.MODE_PRIVATE)
 
-        // Set up RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.categoriesRecyclerView)
         adapter = CategoriesAdapter(this, categories, ::deleteCategory)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Load categories for the current user
         loadCategories()
 
-        // Back to navigation button
         backToNavigationButton = findViewById(R.id.backToNavigationButton)
         backToNavigationButton.setOnClickListener {
             finish()
         }
 
-        // Set up the "Create Category" button
         val createCategoryButton: View = findViewById(R.id.createCategoryButton)
         createCategoryButton.setOnClickListener {
             showCreateCategoryDialog()
         }
 
-        // Handle button to navigate to TimesheetsCreateActivity
         val openTimesheetButton: Button = findViewById(R.id.openTimesheetButton)
         openTimesheetButton.setOnClickListener {
             val intent = Intent(this, TimesheetsCreateActivity::class.java)
@@ -70,12 +63,11 @@ class CategoriesActivity : AppCompatActivity() {
     }
 
     private fun deleteCategory(category: Category) {
-        categories.remove(category) // Remove category from list
-        saveCategories() // Save the updated categories
-        adapter.notifyDataSetChanged() // Notify adapter that data set has changed
+        categories.remove(category)
+        saveCategories()
+        adapter.notifyDataSetChanged()
     }
 
-    // Save categories to SharedPreferences for the current user
     private fun saveCategories() {
         val editor = sharedPreferences.edit()
         val gson = Gson()
@@ -84,7 +76,6 @@ class CategoriesActivity : AppCompatActivity() {
         editor.apply()
     }
 
-    // Load categories for the current user from SharedPreferences
     private fun loadCategories() {
         val jsonCategories = sharedPreferences.getString(userId, null)
         if (!jsonCategories.isNullOrEmpty()) {
@@ -97,7 +88,6 @@ class CategoriesActivity : AppCompatActivity() {
         }
     }
 
-    // Method to show the dialog for creating a new category
     private fun showCreateCategoryDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_create_category, null)
         val nameEditText = dialogView.findViewById<EditText>(R.id.categoryNameEditText)
@@ -111,10 +101,9 @@ class CategoriesActivity : AppCompatActivity() {
                 val categoryDescription = descEditText.text.toString()
 
                 if (!TextUtils.isEmpty(categoryName) && !TextUtils.isEmpty(categoryDescription)) {
-                    // Add new category to the list
                     categories.add(Category(categoryName, categoryDescription))
-                    saveCategories() // Save the categories after adding a new one
-                    adapter.notifyDataSetChanged() // Notify adapter to refresh the list
+                    saveCategories()
+                    adapter.notifyDataSetChanged()
                 } else {
                     Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 }

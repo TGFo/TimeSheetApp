@@ -1,5 +1,6 @@
 package com.opscappgroup2.timesheetapp
 
+
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,6 +8,7 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +26,7 @@ class HoursActivity : AppCompatActivity() {
     private lateinit var endDateButton: Button
     private lateinit var viewReportButton: Button
     private lateinit var backToNavigationButton: Button
+    private lateinit var totalHoursTextView: TextView
 
     private var startDate: Calendar? = null
     private var endDate: Calendar? = null
@@ -35,15 +38,12 @@ class HoursActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hours)
 
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         userId = currentUser?.uid ?: "default_user"
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserTimesheets", Context.MODE_PRIVATE)
 
-        // Initialize views
         minGoalEditText = findViewById(R.id.minGoalEditText)
         maxGoalEditText = findViewById(R.id.maxGoalEditText)
         saveGoalsButton = findViewById(R.id.saveGoalsButton)
@@ -51,8 +51,8 @@ class HoursActivity : AppCompatActivity() {
         endDateButton = findViewById(R.id.endDateButton)
         viewReportButton = findViewById(R.id.viewReportButton)
         backToNavigationButton = findViewById(R.id.backToNavigationButton)
+        totalHoursTextView = findViewById(R.id.totalHoursTextView)
 
-        // Load any previously saved goals
         val sharedPrefs = getSharedPreferences("HourGoals", Context.MODE_PRIVATE)
         val savedMinGoal = sharedPrefs.getFloat("minGoal", 0f)
         val savedMaxGoal = sharedPrefs.getFloat("maxGoal", 0f)
@@ -64,7 +64,6 @@ class HoursActivity : AppCompatActivity() {
             maxGoalEditText.setText(savedMaxGoal.toString())
         }
 
-        // Save goals when button is clicked
         saveGoalsButton.setOnClickListener {
             val minGoal = minGoalEditText.text.toString().toFloatOrNull()
             val maxGoal = maxGoalEditText.text.toString().toFloatOrNull()
@@ -87,7 +86,6 @@ class HoursActivity : AppCompatActivity() {
             finish()
         }
 
-        // Handle date picker for start date
         startDateButton.setOnClickListener {
             showDatePickerDialog { date ->
                 startDate = date
@@ -95,7 +93,6 @@ class HoursActivity : AppCompatActivity() {
             }
         }
 
-        // Handle date picker for end date
         endDateButton.setOnClickListener {
             showDatePickerDialog { date ->
                 endDate = date
@@ -103,7 +100,6 @@ class HoursActivity : AppCompatActivity() {
             }
         }
 
-        // Display hours report based on selected date range
         viewReportButton.setOnClickListener {
             if (startDate != null && endDate != null) {
                 displayHoursReport(startDate!!, endDate!!)
@@ -132,10 +128,9 @@ class HoursActivity : AppCompatActivity() {
     }
 
     private fun displayHoursReport(startDate: Calendar, endDate: Calendar) {
-        // Load timesheets for the current user from SharedPreferences
         val jsonTimesheets = sharedPreferences.getString(userId + "_timesheets", null)
         if (jsonTimesheets.isNullOrEmpty()) {
-            Toast.makeText(this, "No timesheets found.", Toast.LENGTH_SHORT).show()
+            totalHoursTextView.text = "No timesheets found."
             return
         }
 
@@ -143,10 +138,8 @@ class HoursActivity : AppCompatActivity() {
         val type = object : TypeToken<MutableList<Timesheet>>() {}.type
         val savedTimesheets: MutableList<Timesheet> = gson.fromJson(jsonTimesheets, type)
 
-        // Initialize total hours counter
         var totalHoursWorked = 0.0
 
-        // Filter timesheets within the selected date range and calculate hours worked
         val filteredTimesheets = savedTimesheets.filter {
             val timesheetDate = it.date.toDate()
             timesheetDate != null && (timesheetDate == startDate.time || timesheetDate == endDate.time ||
@@ -158,32 +151,29 @@ class HoursActivity : AppCompatActivity() {
             val endTime = timesheet.endTime.toTime()
 
             if (startTime != null && endTime != null) {
-                val hoursWorked = (endTime.time - startTime.time) / (1000.0 * 60 * 60) // Calculate hours
+                val hoursWorked = (endTime.time - startTime.time) / (1000.0 * 60 * 60)
                 totalHoursWorked += hoursWorked
             }
         }
 
-        // Display the total hours worked in a Toast (can be replaced with actual UI display)
-        Toast.makeText(this, "Total hours worked: %.2f hours".format(totalHoursWorked), Toast.LENGTH_LONG).show()
+        totalHoursTextView.text = "Total hours worked: %.2f hours".format(totalHoursWorked)
     }
 
-    // Convert date string (in "yyyy-MM-dd" format) to a Date object
     fun String.toDate(): Date? {
         return try {
             val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             format.parse(this)
         } catch (e: Exception) {
-            null // Return null if parsing fails
+            null
         }
     }
 
-    // Convert time string (in "HH:mm" format) to a Date object
     fun String.toTime(): Date? {
         return try {
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
             format.parse(this)
         } catch (e: Exception) {
-            null // Return null if parsing fails
+            null
         }
     }
 }

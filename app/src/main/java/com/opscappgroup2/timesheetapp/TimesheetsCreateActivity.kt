@@ -1,6 +1,7 @@
 package com.opscappgroup2.timesheetapp
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.Intent
@@ -34,7 +35,7 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         // Initialize FirebaseAuth to get the current user
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
-        userId = currentUser?.uid ?: "default_user" // Fallback to a default user if no user is logged in
+        userId = currentUser?.uid ?: "default_user"
 
         // Initialize SharedPreferences (specific to timesheets)
         sharedPreferences = getSharedPreferences("UserTimesheets", Context.MODE_PRIVATE)
@@ -63,6 +64,20 @@ class TimesheetsCreateActivity : AppCompatActivity() {
             }
         }
 
+        // Set time picker for the start time
+        startTimeEditText.setOnClickListener {
+            showTimePickerDialog { time ->
+                startTimeEditText.setText(time)
+            }
+        }
+
+        // Set time picker for the end time
+        endTimeEditText.setOnClickListener {
+            showTimePickerDialog { time ->
+                endTimeEditText.setText(time)
+            }
+        }
+
         // Category selection
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -71,11 +86,11 @@ class TimesheetsCreateActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                selectedCategory = categories[position] // Get the selected category
+                selectedCategory = categories[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                selectedCategory = null // No category selected
+                selectedCategory = null
             }
         }
 
@@ -97,7 +112,7 @@ class TimesheetsCreateActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Now, save the timesheet entry locally
+            // Save the timesheet entry locally
             saveTimesheetEntry(
                 Timesheet(
                     date, startTime, endTime, description,
@@ -107,6 +122,7 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         }
     }
 
+    // Show Date Picker dialog for date selection
     private fun showDatePickerDialog(onDateSelected: (String) -> Unit) {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -119,6 +135,20 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         }, year, month, day)
 
         datePickerDialog.show()
+    }
+
+    // Show Time Picker dialog for time selection
+    private fun showTimePickerDialog(onTimeSelected: (String) -> Unit) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+            val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+            onTimeSelected(formattedTime)
+        }, hour, minute, true)
+
+        timePickerDialog.show()
     }
 
     private fun validateFields(
@@ -146,22 +176,19 @@ class TimesheetsCreateActivity : AppCompatActivity() {
 
     // Load categories for the current user from SharedPreferences
     private fun loadCategories(): List<String> {
-        // Categories stored in "UserCategories", as this is for categories
         val categoryPrefs = getSharedPreferences("UserCategories", Context.MODE_PRIVATE)
         val jsonCategories = categoryPrefs.getString(userId, null)
         return if (!jsonCategories.isNullOrEmpty()) {
             val gson = Gson()
             val type = object : TypeToken<MutableList<Category>>() {}.type
             val savedCategories: MutableList<Category> = gson.fromJson(jsonCategories, type)
-            savedCategories.map { it.name } // Return only the names of the categories
+            savedCategories.map { it.name }
         } else {
-            emptyList() // Return an empty list if no categories are found
+            emptyList()
         }
     }
 
-    // Save the timesheet entry for the current user in the "UserTimesheets" file
     private fun saveTimesheetEntry(timesheet: Timesheet) {
-        // Retrieve timesheets from the "UserTimesheets" file
         val jsonTimesheets = sharedPreferences.getString(userId + "_timesheets", null)
         val gson = Gson()
         val type = object : TypeToken<MutableList<Timesheet>>() {}.type
@@ -171,16 +198,13 @@ class TimesheetsCreateActivity : AppCompatActivity() {
             mutableListOf()
         }
 
-        // Add the new timesheet to the list
         savedTimesheets.add(timesheet)
 
-        // Convert the updated list back to JSON and save it in SharedPreferences
         val jsonUpdatedTimesheets = gson.toJson(savedTimesheets)
         sharedPreferences.edit().putString(userId + "_timesheets", jsonUpdatedTimesheets).apply()
 
         Toast.makeText(this, "Timesheet entry saved", Toast.LENGTH_SHORT).show()
 
-        // Finish the activity and return to the previous screen
         finish()
     }
 

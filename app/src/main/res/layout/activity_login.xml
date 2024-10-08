@@ -4,57 +4,71 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
 
-    <!-- Email Input -->
+
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_field_background"/>
 
-    <!-- Password Input -->
+
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
         android:padding="12dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_field_background"/>
 
-    <!-- Login Button -->
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"/>
 
-    <!-- Forgot Password TextView -->
+
     <TextView
         android:id="@+id/forgotPasswordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:textStyle="italic"
         android:layout_marginTop="16dp"
         android:gravity="center" />
 
-    <!-- Register Here TextView -->
+
     <TextView
         android:id="@+id/registerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Don't have an account? Register here"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:textStyle="italic"
         android:layout_marginTop="16dp"
         android:gravity="center" />
@@ -63,6 +77,9 @@
         android:id="@+id/skipLoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skip login" />
+        android:text="Skip login"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/button_background"/>
 
 </LinearLayout>

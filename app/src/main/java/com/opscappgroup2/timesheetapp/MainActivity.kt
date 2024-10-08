@@ -15,10 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Find the root layout (Make sure this ID matches the XML layout)
         val rootLayout = findViewById<LinearLayout>(R.id.rootLayout)
 
-        // Set onClickListener to the root layout (anywhere on the screen)
         rootLayout.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

@@ -4,71 +4,84 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@drawable/background_gradient"
     android:padding="16dp">
 
-    <!-- Username Input -->
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_field_background"/>
 
-    <!-- Business Name Input -->
     <EditText
         android:id="@+id/businessNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Business Name"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_field_background"/>
 
-    <!-- Email Input -->
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_field_background"/>
 
-    <!-- Password Input -->
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:padding="12dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_field_background"/>
 
-    <!-- Register Button -->
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"/>
 
-    <!-- Back to Login Button -->
     <Button
         android:id="@+id/backToLoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Back to Login"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"/>
 
 </LinearLayout>

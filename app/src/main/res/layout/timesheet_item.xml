@@ -3,29 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/background_gradient">
 
     <TextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date" />
+        android:text="Date"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
 
     <TextView
         android:id="@+id/startTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Time" />
+        android:text="Start Time"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
 
     <TextView
         android:id="@+id/endTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="End Time" />
+        android:text="End Time"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
 
     <TextView
         android:id="@+id/descriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description" />
+        android:text="Description"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
 </LinearLayout>

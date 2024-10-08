@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@drawable/background_gradient"
     android:gravity="center">
 
 
@@ -12,7 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Categories"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_background"/>
 
 
     <Button
@@ -20,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hours"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_background"/>
 
 
     <Button
@@ -28,6 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Timesheet List"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_background"/>
 
 </LinearLayout>

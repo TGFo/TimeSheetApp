@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set Minimum Daily Goal (hours)"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:textSize="16sp"
         android:layout_marginBottom="8dp" />
 
@@ -20,14 +22,18 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:hint="Enter minimum hours"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
-        android:padding="12dp"/>
-
+        android:padding="12dp"
+        android:background="@drawable/input_field_background"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set Maximum Daily Goal (hours)"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp" />
@@ -38,21 +44,29 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:hint="Enter maximum hours"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:minHeight="48dp"
-        android:padding="12dp"/>
-
+        android:padding="12dp"
+        android:background="@drawable/input_field_background"/>
 
     <Button
         android:id="@+id/saveGoalsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Goals"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_background"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Period"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:textSize="16sp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp" />
@@ -66,14 +80,20 @@
             android:id="@+id/startDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Date" />
+            android:text="Start Date"
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"
+            android:background="@drawable/button_background"/>
 
         <Button
             android:id="@+id/endDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Date"
-            android:layout_marginStart="16dp" />
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/button_background"/>
     </LinearLayout>
 
     <Button
@@ -81,15 +101,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Hours Report"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_background"/>
+
+    <TextView
+        android:id="@+id/totalHoursTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Total hours worked: 0 hrs"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"/>
+
     <Button
         android:id="@+id/backToNavigationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back to Navigation"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
-        android:paddingTop="16dp" />
+        android:paddingTop="16dp"
+        android:background="@drawable/button_background"/>
 
 </LinearLayout>
 

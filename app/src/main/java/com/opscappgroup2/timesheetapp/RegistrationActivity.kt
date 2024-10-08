@@ -19,11 +19,9 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        // UI references
         val usernameEditText: EditText = findViewById(R.id.usernameEditText)
         val businessNameEditText: EditText = findViewById(R.id.businessNameEditText)
         val emailEditText: EditText = findViewById(R.id.emailEditText)
@@ -31,12 +29,10 @@ class RegistrationActivity : AppCompatActivity() {
         val registerButton: Button = findViewById(R.id.registerButton)
         val backToLoginButton: Button = findViewById(R.id.backToLoginButton)
 
-        // Back to Login button functionality
         backToLoginButton.setOnClickListener {
-            // Navigate back to LoginActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()  // Optionally finish RegistrationActivity so it's not in the back stack
+            finish()
         }
 
         registerButton.setOnClickListener {
@@ -45,7 +41,6 @@ class RegistrationActivity : AppCompatActivity() {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            // Basic validation
             if (TextUtils.isEmpty(username)) {
                 usernameEditText.error = "Username is required"
                 return@setOnClickListener
@@ -63,11 +58,9 @@ class RegistrationActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Register user with email and password using FirebaseAuth
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Registration success, save additional user data in Firestore
                         val user: FirebaseUser? = auth.currentUser
                         user?.let {
                             val userId = it.uid
@@ -77,23 +70,20 @@ class RegistrationActivity : AppCompatActivity() {
                                 "email" to email
                             )
 
-                            // Save user information in Firestore under "users" collection
                             firestore.collection("users").document(userId)
                                 .set(userMap)
                                 .addOnSuccessListener {
                                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
 
-                                    // Optionally navigate to LoginActivity after registration or MainActivity
                                     val intent = Intent(this, LoginActivity::class.java)
                                     startActivity(intent)
-                                    finish()  // Close registration activity
+                                    finish()
                                 }
                                 .addOnFailureListener { e ->
                                     Toast.makeText(this, "Failed to save user info: ${e.message}", Toast.LENGTH_SHORT).show()
                                 }
                         }
                     } else {
-                        // If registration fails, display a message to the user
                         Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }

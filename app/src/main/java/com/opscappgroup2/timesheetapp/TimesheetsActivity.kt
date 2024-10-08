@@ -15,7 +15,7 @@ class TimesheetsActivity : AppCompatActivity() {
 
     private lateinit var categoryTextView: TextView
     private lateinit var timesheetsRecyclerView: RecyclerView
-    private val timesheets = mutableListOf<Timesheet>() // Timesheets list
+    private val timesheets = mutableListOf<Timesheet>()
     private lateinit var backToNavigationButton: Button
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
@@ -29,47 +29,38 @@ class TimesheetsActivity : AppCompatActivity() {
         timesheetsRecyclerView = findViewById(R.id.timesheetsRecyclerView)
         backToNavigationButton = findViewById(R.id.backToNavigationButton)
 
-        // Initialize FirebaseAuth and SharedPreferences
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         userId = currentUser?.uid ?: "default_user"
         sharedPreferences = getSharedPreferences("UserTimesheets", Context.MODE_PRIVATE)
 
         backToNavigationButton.setOnClickListener {
-            finish() // Navigate back to the previous screen
+            finish()
         }
 
-        // Get the category name from the Intent
         val categoryName = intent.getStringExtra("categoryName") ?: "No Category"
-        categoryTextView.text = categoryName // Set the category name in the TextView
+        categoryTextView.text = categoryName
 
-        // Set up RecyclerView
         timesheetsRecyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = TimesheetsAdapter(timesheets) // Adapter for displaying timesheets
+        val adapter = TimesheetsAdapter(timesheets)
         timesheetsRecyclerView.adapter = adapter
 
-        // Load timesheets for the selected category
         loadTimesheetsForCategory(categoryName, adapter)
     }
 
-    // Method to load and filter timesheets by category
     private fun loadTimesheetsForCategory(categoryName: String, adapter: TimesheetsAdapter) {
-        // Load timesheets from SharedPreferences
         val jsonTimesheets = sharedPreferences.getString(userId + "_timesheets", null)
         if (!jsonTimesheets.isNullOrEmpty()) {
             val gson = Gson()
             val type = object : TypeToken<MutableList<Timesheet>>() {}.type
             val savedTimesheets: MutableList<Timesheet> = gson.fromJson(jsonTimesheets, type)
 
-            // Filter timesheets by the selected category
             val filteredTimesheets = savedTimesheets.filter { it.category == categoryName }
 
-            // Clear the timesheet list and add the filtered ones
             timesheets.clear()
             timesheets.addAll(filteredTimesheets)
             adapter.notifyDataSetChanged()
         } else {
-            // Display a message if no timesheets are found
             categoryTextView.text = "No timesheets found for this category"
         }
     }

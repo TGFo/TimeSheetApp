@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
 
 
     <LinearLayout
@@ -16,28 +17,38 @@
             android:id="@+id/selectStartDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Date" />
+            android:text="Start Date"
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"
+            android:background="@drawable/button_background"/>
 
         <TextView
             android:id="@+id/startDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
-            android:text="Select Start Date" />
+            android:text=""
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"/>
 
         <Button
             android:id="@+id/selectEndDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Date"
-            android:paddingStart="16dp" />
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"
+            android:paddingStart="16dp"
+            android:background="@drawable/button_background"/>
 
         <TextView
             android:id="@+id/endDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
-            android:text="Select End Date" />
+            android:text=""
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"/>
     </LinearLayout>
 
 
@@ -50,6 +61,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back to Navigation"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
-        android:paddingTop="16dp" />
+        android:paddingTop="16dp"
+        android:background="@drawable/button_background"/>
 </LinearLayout>

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CategoriesActivity">
+    tools:context=".CategoriesActivity"
+    android:background="@drawable/background_gradient">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoriesRecyclerView"
         android:layout_width="match_parent"
@@ -21,21 +22,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-
-        android:text="Create Category" />
+        android:text="Create Category"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/button_background"/>
     <Button
         android:id="@+id/openTimesheetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="Create New Timesheet" />
+        android:text="Create New Timesheet"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/button_background"/>
     <Button
         android:id="@+id/backToNavigationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back to Navigation"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
-        android:paddingTop="16dp" />
+        android:paddingTop="16dp"
+        android:background="@drawable/button_background"/>
 
 </LinearLayout>

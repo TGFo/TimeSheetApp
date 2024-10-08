@@ -30,19 +30,18 @@ class CategoriesAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val category = categories[position]
-        holder.textName.text = category.name // Display the category name
-        holder.textDescription.text = category.description // Display the category description
+        holder.textName.text = category.name
+        holder.textDescription.text = category.description
 
-        // Handle delete button click
         holder.deleteButton.setOnClickListener {
             Toast.makeText(context, "${category.name} deleted", Toast.LENGTH_SHORT).show()
-            onDeleteCategory(category)  // Call the delete callback
+            onDeleteCategory(category)
         }
 
-        // Handle category click to navigate to TimesheetsActivity
+
         holder.itemView.setOnClickListener {
             val intent = Intent(context, TimesheetsActivity::class.java)
-            intent.putExtra("categoryName", category.name) // Pass the category name to TimesheetsActivity
+            intent.putExtra("categoryName", category.name)
             context.startActivity(intent)
         }
     }

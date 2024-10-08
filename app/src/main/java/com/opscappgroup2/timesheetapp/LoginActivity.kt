@@ -18,10 +18,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // UI references
         val emailEditText: EditText = findViewById(R.id.emailEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
         val loginButton: Button = findViewById(R.id.loginButton)
@@ -34,12 +32,12 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, NavigationActivity :: class.java))
             finish()
         }
-        // Login Button
+
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            // Basic validation
+
             if (TextUtils.isEmpty(email)) {
                 emailEditText.error = "Email is required"
                 return@setOnClickListener
@@ -49,32 +47,26 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Sign in with email and password using FirebaseAuth
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, navigate to MainActivity
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, NavigationActivity::class.java))
-                        finish()  // Close the login activity
+                        finish()
                     } else {
-                        // If sign in fails, display a message to the user
                         Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
 
-        // Forgot Password functionality
         forgotPasswordTextView.setOnClickListener {
             val email = emailEditText.text.toString().trim()
 
-            // Check if email is empty
             if (TextUtils.isEmpty(email)) {
                 emailEditText.error = "Enter your email to reset password"
                 return@setOnClickListener
             }
 
-            // Send password reset email
             auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -85,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
 
-        // Navigate to RegistrationActivity when clicking "Register here"
         registerTextView.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)

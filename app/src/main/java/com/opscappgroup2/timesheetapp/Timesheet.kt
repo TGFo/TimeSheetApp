@@ -5,6 +5,6 @@ data class Timesheet(
     val startTime: String,
     val endTime: String,
     val description: String,
-    val photoUri: String? = null, // Photo URI if any
+    val photoUri: String? = null,
     val category: String
 )
