@@ -1,43 +1,39 @@
 package com.opscappgroup2.timesheetapp
-import android.content.Context
-import android.content.SharedPreferences
+
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.google.firebase.database.FirebaseDatabase
 
 class TimesheetsActivity : AppCompatActivity() {
 
     private lateinit var categoryTextView: TextView
     private lateinit var timesheetsRecyclerView: RecyclerView
-    private val timesheets = mutableListOf<Timesheet>()
     private lateinit var backToNavigationButton: Button
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
     private lateinit var userId: String
+    private val timesheets = mutableListOf<Timesheet>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timesheets)
 
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
+        userId = auth.currentUser?.uid ?: return
+
         categoryTextView = findViewById(R.id.categoryTextView)
         timesheetsRecyclerView = findViewById(R.id.timesheetsRecyclerView)
         backToNavigationButton = findViewById(R.id.backToNavigationButton)
 
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
-        userId = currentUser?.uid ?: "default_user"
-        sharedPreferences = getSharedPreferences("UserTimesheets", Context.MODE_PRIVATE)
+        backToNavigationButton.setOnClickListener { finish() }
 
-        backToNavigationButton.setOnClickListener {
-            finish()
-        }
-
+        // Get category name from the intent
         val categoryName = intent.getStringExtra("categoryName") ?: "No Category"
         categoryTextView.text = categoryName
 
@@ -48,20 +44,28 @@ class TimesheetsActivity : AppCompatActivity() {
         loadTimesheetsForCategory(categoryName, adapter)
     }
 
+    // Load timesheets for the selected category from Firebase
     private fun loadTimesheetsForCategory(categoryName: String, adapter: TimesheetsAdapter) {
-        val jsonTimesheets = sharedPreferences.getString(userId + "_timesheets", null)
-        if (!jsonTimesheets.isNullOrEmpty()) {
-            val gson = Gson()
-            val type = object : TypeToken<MutableList<Timesheet>>() {}.type
-            val savedTimesheets: MutableList<Timesheet> = gson.fromJson(jsonTimesheets, type)
+        val userTimesheetsRef = FirebaseDatabase.getInstance().reference
+            .child("Users").child(userId).child("timesheets")
 
-            val filteredTimesheets = savedTimesheets.filter { it.category == categoryName }
-
+        userTimesheetsRef.get().addOnSuccessListener { snapshot ->
             timesheets.clear()
-            timesheets.addAll(filteredTimesheets)
-            adapter.notifyDataSetChanged()
-        } else {
-            categoryTextView.text = "No timesheets found for this category"
+            if (snapshot.exists()) {
+                snapshot.children.mapNotNull { it.getValue(Timesheet::class.java) }
+                    .filter { it.category == categoryName }
+                    .also { timesheets.addAll(it) }
+
+                adapter.notifyDataSetChanged()
+
+                if (timesheets.isEmpty()) {
+                    categoryTextView.text = "No timesheets found for this category"
+                }
+            } else {
+                categoryTextView.text = "No timesheets found for this category"
+            }
+        }.addOnFailureListener { e ->
+            Toast.makeText(this, "Failed to load timesheets: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }
