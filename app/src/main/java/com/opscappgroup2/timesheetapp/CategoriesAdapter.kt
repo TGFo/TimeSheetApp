@@ -41,6 +41,7 @@ class CategoriesAdapter(
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, TimesheetsActivity::class.java)
+            intent.putExtra("categoryId", category.id)
             intent.putExtra("categoryName", category.name)
             context.startActivity(intent)
         }

@@ -1,6 +1,7 @@
 package com.opscappgroup2.timesheetapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +19,7 @@ class TimesheetsActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var userId: String
     private val timesheets = mutableListOf<Timesheet>()
+    private lateinit var adapter: TimesheetsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,29 +36,46 @@ class TimesheetsActivity : AppCompatActivity() {
         backToNavigationButton.setOnClickListener { finish() }
 
         // Get category name from the intent
-        val categoryName = intent.getStringExtra("categoryName") ?: "No Category"
-        categoryTextView.text = categoryName
+        val categoryId = intent.getStringExtra("categoryId")
+        val categoryName = intent.getStringExtra("categoryName")
 
+        if (categoryName != null) {
+            categoryTextView.text = categoryName
+        } else {
+            categoryTextView.text = "No Category Selected"
+            Toast.makeText(this, "Error: Category name not received", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        Log.d("TimesheetsActivity", "Received categoryId: $categoryId, categoryName: $categoryName")
+
+        adapter = TimesheetsAdapter(timesheets)
         timesheetsRecyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = TimesheetsAdapter(timesheets)
         timesheetsRecyclerView.adapter = adapter
 
-        loadTimesheetsForCategory(categoryName, adapter)
+        if (categoryId != null) {
+            loadTimesheetsForCategory(categoryId)
+        } else {
+            Toast.makeText(this, "Error: Category ID not received", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    // Load timesheets for the selected category from Firebase
-    private fun loadTimesheetsForCategory(categoryName: String, adapter: TimesheetsAdapter) {
-        val userTimesheetsRef = FirebaseDatabase.getInstance().reference
-            .child("Users").child(userId).child("timesheets")
 
-        userTimesheetsRef.get().addOnSuccessListener { snapshot ->
+    // Load timesheets for the selected category from Firebase
+    // Load timesheets for the selected category using categoryId
+    private fun loadTimesheetsForCategory(categoryId: String) {
+        val categoryTimesheetsRef = FirebaseDatabase.getInstance().reference
+            .child("Users").child(userId).child("categories").child(categoryId).child("timesheets")
+
+        categoryTimesheetsRef.get().addOnSuccessListener { snapshot ->
             timesheets.clear()
             if (snapshot.exists()) {
+                // Map the snapshot data to Timesheet objects and add them to the list
                 snapshot.children.mapNotNull { it.getValue(Timesheet::class.java) }
-                    .filter { it.category == categoryName }
                     .also { timesheets.addAll(it) }
 
-                adapter.notifyDataSetChanged()
+                // Notify the adapter about data changes
+                adapter.updateTimesheets(timesheets)
 
                 if (timesheets.isEmpty()) {
                     categoryTextView.text = "No timesheets found for this category"

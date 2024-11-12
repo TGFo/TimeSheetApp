@@ -30,6 +30,8 @@ class TimesheetsCreateActivity : AppCompatActivity() {
     private val timesheets = mutableListOf<Timesheet>()
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
     private lateinit var categorySpinner: Spinner
+    private lateinit var startTimeTextView: TextView
+    private lateinit var endTimeTextView: TextView
     private val categoryMap = mutableMapOf<String, String>() // Map to store category names and IDs
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +44,8 @@ class TimesheetsCreateActivity : AppCompatActivity() {
 
         photoImageView = findViewById(R.id.photoImageView)
         val dateEditText: EditText = findViewById(R.id.dateEditText)
-        val startTimeEditText: EditText = findViewById(R.id.startTimeEditText)
-        val endTimeEditText: EditText = findViewById(R.id.endTimeEditText)
+        startTimeTextView = findViewById(R.id.startTimeTextView)
+        endTimeTextView = findViewById(R.id.endTimeTextView)
         val descriptionEditText: EditText = findViewById(R.id.descriptionEditText)
         categorySpinner = findViewById(R.id.categorySpinner)
         val addPhotoButton: Button = findViewById(R.id.addPhotoButton)
@@ -71,21 +73,20 @@ class TimesheetsCreateActivity : AppCompatActivity() {
             showDatePickerDialog { date -> dateEditText.setText(date) }
         }
 
-        // Set time picker for the start time
-        startTimeEditText.setOnClickListener {
-            showTimePickerDialog { time -> startTimeEditText.setText(time) }
+        startTimeTextView.setOnClickListener {
+            showTimePickerDialog { time -> startTimeTextView.text = time }
         }
 
-        // Set time picker for the end time
-        endTimeEditText.setOnClickListener {
-            showTimePickerDialog { time -> endTimeEditText.setText(time) }
+        endTimeTextView.setOnClickListener {
+            showTimePickerDialog { time -> endTimeTextView.text = time }
         }
+
 
         // Handle saving the timesheet entry
         saveButton.setOnClickListener {
             val date = dateEditText.text.toString()
-            val startTime = startTimeEditText.text.toString()
-            val endTime = endTimeEditText.text.toString()
+            val startTime = startTimeTextView.text.toString()
+            val endTime = endTimeTextView.text.toString()
             val description = descriptionEditText.text.toString()
             val selectedCategoryName = categorySpinner.selectedItem?.toString()
             val categoryId = categoryMap[selectedCategoryName] // Get the category ID from the map
@@ -158,10 +159,21 @@ class TimesheetsCreateActivity : AppCompatActivity() {
     // Show Time Picker dialog
     private fun showTimePickerDialog(onTimeSelected: (String) -> Unit) {
         val calendar = Calendar.getInstance()
-        TimePickerDialog(this, { _, hourOfDay, minute ->
-            val formattedTime = String.format("%02d:%02d", hourOfDay, minute)
-            onTimeSelected(formattedTime)
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                val time = String.format("%02d:%02d", selectedHour, selectedMinute)
+                onTimeSelected(time)
+            },
+            hour,
+            minute,
+            true
+        )
+
+        timePickerDialog.show()
     }
 
     // Validate input fields

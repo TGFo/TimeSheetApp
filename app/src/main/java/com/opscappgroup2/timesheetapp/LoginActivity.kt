@@ -25,12 +25,8 @@ class LoginActivity : AppCompatActivity() {
         val loginButton: Button = findViewById(R.id.loginButton)
         val registerTextView: TextView = findViewById(R.id.registerTextView)
         val forgotPasswordTextView: TextView = findViewById(R.id.forgotPasswordTextView)
-        val skipLoginButton: Button = findViewById(R.id.skipLoginButton)
 
-        // Skip login and navigate to the main screen
-        skipLoginButton.setOnClickListener {
-            navigateToMainScreen()
-        }
+
 
         // Handle user login
         loginButton.setOnClickListener {

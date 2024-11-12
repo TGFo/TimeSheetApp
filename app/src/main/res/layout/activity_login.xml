@@ -72,14 +72,4 @@
         android:textStyle="italic"
         android:layout_marginTop="16dp"
         android:gravity="center" />
-
-    <Button
-        android:id="@+id/skipLoginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Skip login"
-        android:textColor="#3C3C3C"
-        android:fontFamily="@font/custom_font"
-        android:background="@drawable/button_background"/>
-
 </LinearLayout>

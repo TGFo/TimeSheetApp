@@ -55,6 +55,7 @@ class CategoriesActivity : AppCompatActivity() {
         // Handle open timesheet button click
         findViewById<Button>(R.id.openTimesheetButton).setOnClickListener {
             startActivity(Intent(this, TimesheetsCreateActivity::class.java))
+
         }
     }
 
