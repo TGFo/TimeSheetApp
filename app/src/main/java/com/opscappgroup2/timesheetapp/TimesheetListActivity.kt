@@ -1,8 +1,6 @@
 package com.opscappgroup2.timesheetapp
 
 import android.app.DatePickerDialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -28,6 +26,8 @@ class TimesheetListActivity : AppCompatActivity() {
     private lateinit var userId: String
     private val timesheets = mutableListOf<Timesheet>()
     private lateinit var adapter: TimesheetsAdapter
+    private var startDate: Calendar? = null
+    private var endDate: Calendar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,46 +51,58 @@ class TimesheetListActivity : AppCompatActivity() {
 
         selectStartDateButton.setOnClickListener {
             showDatePickerDialog { date ->
-                startDateTextView.text = date
+                startDate = date
+                startDateTextView.text = date.toFormattedString()
                 filterTimesheetsByDate()
             }
         }
 
         selectEndDateButton.setOnClickListener {
             showDatePickerDialog { date ->
-                endDateTextView.text = date
+                endDate = date
+                endDateTextView.text = date.toFormattedString()
                 filterTimesheetsByDate()
             }
         }
 
-        loadTimesheets()
+        // Load all timesheets initially
+        loadAllTimesheets()
     }
 
-    // Show DatePickerDialog for date selection
-    private fun showDatePickerDialog(onDateSelected: (String) -> Unit) {
+    private fun showDatePickerDialog(onDateSelected: (Calendar) -> Unit) {
         val calendar = Calendar.getInstance()
         DatePickerDialog(this, { _, year, month, dayOfMonth ->
-            val formattedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
-            onDateSelected(formattedDate)
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(year, month, dayOfMonth)
+            onDateSelected(selectedDate)
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
 
-    // Load all timesheets from Firebase Realtime Database
-    private fun loadTimesheets() {
-        val userTimesheetsRef = FirebaseDatabase.getInstance().reference
-            .child("Users").child(userId).child("categories").child("timesheets")
+    // Load all timesheets from all categories
+    private fun loadAllTimesheets() {
+        val categoriesRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("categories")
 
-        userTimesheetsRef.get().addOnSuccessListener { snapshot ->
+        categoriesRef.get().addOnSuccessListener { categoriesSnapshot ->
             timesheets.clear()
-            if (snapshot.exists()) {
-                snapshot.children.mapNotNullTo(timesheets) { it.getValue(Timesheet::class.java) }
+            if (categoriesSnapshot.exists()) {
+                categoriesSnapshot.children.forEach { categorySnapshot ->
+                    val timesheetsRef = categorySnapshot.child("timesheets")
+
+                    timesheetsRef.children.forEach { timesheetSnapshot ->
+                        val timesheet = timesheetSnapshot.getValue(Timesheet::class.java)
+                        if (timesheet != null) {
+                            timesheets.add(timesheet)
+                        }
+                    }
+                }
                 adapter.updateTimesheets(timesheets)
                 Toast.makeText(this, "Loaded ${timesheets.size} timesheets", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "No timesheets found in Firebase.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No timesheets found.", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Failed to load timesheets: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("TimesheetListActivity", "Error loading timesheets: ${e.message}", e)
         }
     }
 
@@ -99,9 +111,7 @@ class TimesheetListActivity : AppCompatActivity() {
         val startDateString = startDateTextView.text.toString()
         val endDateString = endDateTextView.text.toString()
 
-        if (startDateString.isBlank() || endDateString.isBlank() ||
-            startDateString == "Select Start Date" || endDateString == "Select End Date"
-        ) {
+        if (startDateString.isBlank() || endDateString.isBlank()) {
             Toast.makeText(this, "Please select both start and end dates.", Toast.LENGTH_SHORT).show()
             return
         }
@@ -131,24 +141,27 @@ class TimesheetListActivity : AppCompatActivity() {
         }
     }
 
-    // Convert a String to a Date object
     private fun String.toDate(): Date? {
-        return try {
-            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            format.parse(this)
-        } catch (e: Exception) {
-            Log.e("TimesheetListActivity", "Date parsing error: $this", e)
-            null
+        val formats = listOf(
+            SimpleDateFormat("yyyy-MM-d", Locale.getDefault()),   // Handles dates like "2024-11-3"
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()),  // Handles dates like "2024-11-03"
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())   // Handles dates like "13/11/2024"
+        )
+
+        for (format in formats) {
+            try {
+                format.isLenient = false
+                return format.parse(this)
+            } catch (e: Exception) {
+                Log.e("HoursActivity", "Date parsing error for format: ${format.toPattern()}, input: $this", e)
+            }
         }
+
+        Log.e("HoursActivity", "Unable to parse date: $this")
+        return null
     }
 
-    // Open the photo associated with the timesheet
-    private fun openPhoto(timesheet: Timesheet) {
-        timesheet.photoUri?.let {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(Uri.parse(it), "image/*")
-            }
-            startActivity(intent)
-        } ?: Toast.makeText(this, "No photo available for this timesheet", Toast.LENGTH_SHORT).show()
+    private fun Calendar.toFormattedString(): String {
+        return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(this.time)
     }
 }

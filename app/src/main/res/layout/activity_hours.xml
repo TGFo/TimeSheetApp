@@ -4,17 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/background_gradient">
+    android:padding="20dp"
+    android:background="@drawable/background_gradient"
+    android:gravity="center_horizontal">
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Minimum Daily Goal (hours)"
+        android:text="Set Minimum Daily Goal (Hours)"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:textSize="16sp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"/>
 
     <EditText
         android:id="@+id/minGoalEditText"
@@ -28,15 +30,16 @@
         android:padding="12dp"
         android:background="@drawable/input_field_background"/>
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Maximum Daily Goal (hours)"
+        android:text="Set Maximum Daily Goal (Hours)"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:textSize="16sp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"/>
 
     <EditText
         android:id="@+id/maxGoalEditText"
@@ -50,16 +53,17 @@
         android:padding="12dp"
         android:background="@drawable/input_field_background"/>
 
+
     <Button
         android:id="@+id/saveGoalsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save Goals"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
         android:background="@drawable/button_background"/>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,43 +73,50 @@
         android:fontFamily="@font/custom_font"
         android:textSize="16sp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <Button
             android:id="@+id/startDateButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Start Date"
             android:textColor="#3C3C3C"
             android:fontFamily="@font/custom_font"
             android:background="@drawable/button_background"/>
 
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/endDateButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="End Date"
             android:textColor="#3C3C3C"
             android:fontFamily="@font/custom_font"
-            android:layout_marginStart="16dp"
             android:background="@drawable/button_background"/>
     </LinearLayout>
 
+
     <Button
         android:id="@+id/viewReportButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Hours Report"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
         android:background="@drawable/button_background"/>
+
 
     <TextView
         android:id="@+id/totalHoursTextView"
@@ -113,21 +124,37 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Total hours worked: 0 hrs"
+        android:text="Total Hours Worked: 0 hrs"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"/>
 
     <Button
+        android:id="@+id/showHoursGraphButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Hours Graph"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"/>
+
+    <Button
+        android:id="@+id/showGoalPerformanceButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Goal Performance"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"/>
+    <Button
         android:id="@+id/backToNavigationButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Back to Navigation"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
-        android:layout_gravity="center"
-        android:paddingTop="16dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_background"/>
 
 </LinearLayout>
-

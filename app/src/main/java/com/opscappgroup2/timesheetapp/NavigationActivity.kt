@@ -1,4 +1,5 @@
 package com.opscappgroup2.timesheetapp
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,6 +10,7 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var buttonCategories: Button
     private lateinit var buttonHours: Button
     private lateinit var buttonTimesheetList: Button
+    private lateinit var buttonProfilePage: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +19,7 @@ class NavigationActivity : AppCompatActivity() {
         buttonCategories = findViewById(R.id.buttonCategories)
         buttonHours = findViewById(R.id.buttonHours)
         buttonTimesheetList = findViewById(R.id.buttonTimesheetList)
+        buttonProfilePage = findViewById(R.id.buttonProfilePage)
 
         buttonCategories.setOnClickListener {
             val intent = Intent(this, CategoriesActivity::class.java)
@@ -30,6 +33,11 @@ class NavigationActivity : AppCompatActivity() {
 
         buttonTimesheetList.setOnClickListener {
             val intent = Intent(this, TimesheetListActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonProfilePage.setOnClickListener {
+            val intent = Intent(this, ProfilePageActivity::class.java)
             startActivity(intent)
         }
     }

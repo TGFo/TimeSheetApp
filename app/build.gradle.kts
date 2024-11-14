@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.firebase.crashlytics) // Correctly declared Crashlytics plugin
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -55,6 +55,11 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
+
+    // Picasso for image loading
+    implementation("com.squareup.picasso:picasso:2.8")
+
+
 
     // Testing
     testImplementation(libs.junit)

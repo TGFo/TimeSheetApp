@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@drawable/background_gradient">
+
+    <TextView
+        android:id="@+id/profileHeadingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="24sp"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:layout_marginBottom="16dp"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        />
+
+    <EditText
+        android:id="@+id/businessNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Business Name"
+        android:layout_marginBottom="16dp"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        />
+
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_marginBottom="16dp"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        />
+
+    <Button
+        android:id="@+id/buttonSaveProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:text="Save Profile"/>
+
+    <Button
+        android:id="@+id/buttonBackToNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to Navigation"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
