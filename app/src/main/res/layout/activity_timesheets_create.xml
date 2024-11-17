@@ -3,27 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/background_gradient">
-
+    android:padding="20dp"
+    android:background="@drawable/background_gradient"
+    android:gravity="center_vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date"
         android:textColor="#3C3C3C"
-        android:fontFamily="@font/custom_font"/>
+        android:fontFamily="@font/custom_font"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
+
     <EditText
         android:id="@+id/dateEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Enter date"
+        android:hint="Enter Date"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
+        android:background="@drawable/input_field_background"
         android:focusable="false"
-        android:background="@drawable/input_field_background"/>
+        android:clickable="true"
+        android:layout_marginBottom="12dp" />
 
 
     <TextView
@@ -31,21 +36,23 @@
         android:layout_height="wrap_content"
         android:text="Start Time"
         android:textColor="#3C3C3C"
-        android:fontFamily="@font/custom_font"/>
+        android:fontFamily="@font/custom_font"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
+
     <TextView
         android:id="@+id/startTimeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Select start time"
+        android:hint="Select Start Time"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:background="@drawable/input_field_background"
         android:focusable="false"
-        android:clickable="true" />
-
-
+        android:clickable="true"
+        android:layout_marginBottom="12dp" />
 
 
     <TextView
@@ -53,7 +60,9 @@
         android:layout_height="wrap_content"
         android:text="End Time"
         android:textColor="#3C3C3C"
-        android:fontFamily="@font/custom_font"/>
+        android:fontFamily="@font/custom_font"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
 
     <TextView
         android:id="@+id/endTimeTextView"
@@ -61,29 +70,35 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Select end time"
+        android:hint="Select End Time"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:background="@drawable/input_field_background"
         android:focusable="false"
-        android:clickable="true" />
+        android:clickable="true"
+        android:layout_marginBottom="12dp" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
         android:textColor="#3C3C3C"
-        android:fontFamily="@font/custom_font"/>
+        android:fontFamily="@font/custom_font"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
+
     <EditText
         android:id="@+id/descriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:hint="Enter description"
+        android:hint="Enter Description"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
-        android:background="@drawable/input_field_background"/>
+        android:background="@drawable/input_field_background"
+        android:layout_marginBottom="12dp" />
 
 
     <TextView
@@ -92,20 +107,19 @@
         android:text="Select Category"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
 
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:textColor="#3C3C3C"
-        android:fontFamily="@font/custom_font"/>
+        android:background="@drawable/input_field_background"
+        android:layout_marginBottom="16dp" />
 
-
-
+    <!-- Add Photo Button -->
     <Button
         android:id="@+id/addPhotoButton"
         android:layout_width="match_parent"
@@ -113,8 +127,8 @@
         android:text="Add Photo"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
-        android:background="@drawable/button_background"/>
-
+        android:background="@drawable/button_background"
+        android:layout_marginTop="16dp" />
 
     <ImageView
         android:id="@+id/photoImageView"
@@ -123,7 +137,6 @@
         android:layout_marginTop="16dp"
         android:visibility="gone" />
 
-
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
@@ -131,8 +144,7 @@
         android:text="Save Timesheet Entry"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
-        android:background="@drawable/button_background"/>
-
-
+        android:background="@drawable/button_background"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

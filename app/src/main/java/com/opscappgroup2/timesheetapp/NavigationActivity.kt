@@ -11,6 +11,7 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var buttonHours: Button
     private lateinit var buttonTimesheetList: Button
     private lateinit var buttonProfilePage: Button
+    private lateinit var buttonGacha: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ class NavigationActivity : AppCompatActivity() {
         buttonHours = findViewById(R.id.buttonHours)
         buttonTimesheetList = findViewById(R.id.buttonTimesheetList)
         buttonProfilePage = findViewById(R.id.buttonProfilePage)
+        buttonGacha = findViewById(R.id.buttonGacha)
 
         buttonCategories.setOnClickListener {
             val intent = Intent(this, CategoriesActivity::class.java)
@@ -38,6 +40,10 @@ class NavigationActivity : AppCompatActivity() {
 
         buttonProfilePage.setOnClickListener {
             val intent = Intent(this, ProfilePageActivity::class.java)
+            startActivity(intent)
+        }
+        buttonGacha.setOnClickListener {
+            val intent = Intent(this, GachaActivity::class.java)
             startActivity(intent)
         }
     }

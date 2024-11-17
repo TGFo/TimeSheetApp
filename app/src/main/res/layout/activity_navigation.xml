@@ -50,4 +50,14 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_background"/>
 
+    <Button
+        android:id="@+id/buttonGacha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chuddie Gacha"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_background"/>
+
 </LinearLayout>

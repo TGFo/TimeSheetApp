@@ -215,13 +215,21 @@ class HoursActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.popup_graph, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
 
-        val graphView = dialogView.findViewById<LineGraphView>(R.id.graphView)
+        val graphView = dialogView.findViewById<BarChartView>(R.id.graphView)
+        val monthTextView = dialogView.findViewById<TextView>(R.id.monthTextView)
         val closeGraphButton = dialogView.findViewById<Button>(R.id.closeGraphButton)
+        val selectDateButton = dialogView.findViewById<Button>(R.id.selectDateButton)
 
-        calculateTotalHoursWorked(startDate!!, endDate!!) { dataPoints ->
-            val minGoal = minGoalEditText.text.toString().toFloatOrNull() ?: 0f
-            val maxGoal = maxGoalEditText.text.toString().toFloatOrNull() ?: 0f
-            graphView.setData(dataPoints, minGoal, maxGoal)
+        selectDateButton.setOnClickListener {
+            showDatePickerDialog { selectedDate ->
+                // Update the month title
+                monthTextView.text = selectedDate.toFormattedString("MMMM")
+
+                // Fetch the weekly data centered around the selected date
+                fetchWeeklyData(selectedDate) { weeklyData, dateLabels ->
+                    graphView.setData(weeklyData, dateLabels)
+                }
+            }
         }
 
         closeGraphButton.setOnClickListener { dialog.dismiss() }
@@ -231,29 +239,62 @@ class HoursActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.popup_goal_performance, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
 
+        val currentPeriodTextView = dialogView.findViewById<TextView>(R.id.currentPeriodTextView)
         val minGoalTextView = dialogView.findViewById<TextView>(R.id.minGoalTextView)
         val maxGoalTextView = dialogView.findViewById<TextView>(R.id.maxGoalTextView)
+        val prevPeriodTextView = dialogView.findViewById<TextView>(R.id.prevPeriodTextView)
+        val prevMinGoalTextView = dialogView.findViewById<TextView>(R.id.prevMinGoalTextView)
+        val prevMaxGoalTextView = dialogView.findViewById<TextView>(R.id.prevMaxGoalTextView)
         val closeStatsButton = dialogView.findViewById<Button>(R.id.closeStatsButton)
 
-        calculateGoalPerformance { minGoalPercentage, maxGoalPercentage ->
+        calculateGoalPerformance { currentPeriodStart, minGoalPercentage, maxGoalPercentage, prevPeriodStart, prevMinGoalPercentage, prevMaxGoalPercentage ->
+            currentPeriodTextView.text = "Current Period Start: $currentPeriodStart"
             minGoalTextView.text = "Min Goal Met: ${"%.2f".format(minGoalPercentage)}%"
             maxGoalTextView.text = "Max Goal Met: ${"%.2f".format(maxGoalPercentage)}%"
+            prevPeriodTextView.text = "Previous Period Start: $prevPeriodStart"
+            prevMinGoalTextView.text = "Previous Min Goal: ${"%.2f".format(prevMinGoalPercentage)}%"
+            prevMaxGoalTextView.text = "Previous Max Goal: ${"%.2f".format(prevMaxGoalPercentage)}%"
         }
 
         closeStatsButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
-    private fun calculateGoalPerformance(onResult: (Float, Float) -> Unit) {
+
+    private fun calculateGoalPerformance(onResult: (String, Float, Float, String, Float, Float) -> Unit) {
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MONTH, -1)
-        val startDate = calendar.time
-        val endDate = Date()
+        val currentDate = calendar.time
+
+        // Define the start date of the first 30-day period
+        val firstPeriodStartDate = Calendar.getInstance().apply {
+            set(2024, Calendar.NOVEMBER, 18)
+        }
+
+        // Check if the current date is before the start date
+        if (currentDate.before(firstPeriodStartDate.time)) {
+            onResult("No Data Available", 0f, 0f, "No Data Available", 0f, 0f)
+            return
+        }
+
+        // Calculate the current 30-day period start date
+        val daysSinceStart = ((currentDate.time - firstPeriodStartDate.timeInMillis) / (1000 * 60 * 60 * 24)).toInt()
+        val currentPeriodStartDate = firstPeriodStartDate.clone() as Calendar
+        currentPeriodStartDate.add(Calendar.DAY_OF_MONTH, (daysSinceStart / 30) * 30)
+
+        val previousPeriodStartDate = currentPeriodStartDate.clone() as Calendar
+        previousPeriodStartDate.add(Calendar.DAY_OF_MONTH, -30)
+
         var daysMetMinGoal = 0
         var daysMetMaxGoal = 0
-        var totalDays = 0
+        var totalWeekdays = 0
 
-        val categoriesRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
-            .child("categories")
+        var prevDaysMetMinGoal = 0
+        var prevDaysMetMaxGoal = 0
+        var prevTotalWeekdays = 0
+
+        val minGoal = minGoalEditText.text.toString().toFloatOrNull() ?: 0f
+        val maxGoal = maxGoalEditText.text.toString().toFloatOrNull() ?: 0f
+
+        val categoriesRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("categories")
 
         categoriesRef.get().addOnSuccessListener { categoriesSnapshot ->
             if (categoriesSnapshot.exists()) {
@@ -264,33 +305,107 @@ class HoursActivity : AppCompatActivity() {
                         val timesheet = timesheetSnapshot.getValue(Timesheet::class.java)
                         val timesheetDate = timesheet?.date?.toDate()
 
-                        if (timesheetDate != null && timesheetDate in startDate..endDate && isWeekday(
-                                timesheetDate
-                            )
-                        ) {
-                            totalDays++
+                        if (timesheetDate != null) {
                             val startTime = timesheet?.startTime?.toTime()
                             val endTime = timesheet?.endTime?.toTime()
 
-                            if (startTime != null && endTime != null) {
-                                val hoursWorked =
-                                    (endTime.time - startTime.time) / (1000.0 * 60 * 60)
-                                if (hoursWorked >= minGoalEditText.text.toString()
-                                        .toFloat()
-                                ) daysMetMinGoal++
-                                if (hoursWorked >= maxGoalEditText.text.toString()
-                                        .toFloat()
-                                ) daysMetMaxGoal++
+                            val hoursWorked = if (startTime != null && endTime != null && endTime.after(startTime)) {
+                                (endTime.time - startTime.time) / (1000.0 * 60 * 60)
+                            } else {
+                                0.0
+                            }
+
+                            // Current period calculation
+                            if (timesheetDate in currentPeriodStartDate.time..currentDate && isWeekday(timesheetDate)) {
+                                totalWeekdays++
+                                if (hoursWorked >= minGoal) daysMetMinGoal++
+                                if (hoursWorked >= maxGoal) daysMetMaxGoal++
+                            }
+
+                            // Previous period calculation
+                            if (timesheetDate >= previousPeriodStartDate.time && timesheetDate < currentPeriodStartDate.time && isWeekday(timesheetDate)) {
+                                prevTotalWeekdays++
+                                if (hoursWorked >= minGoal) prevDaysMetMinGoal++
+                                if (hoursWorked >= maxGoal) prevDaysMetMaxGoal++
                             }
                         }
                     }
-
-                    val minGoalPercentage = (daysMetMinGoal.toFloat() / totalDays) * 100
-                    val maxGoalPercentage = (daysMetMaxGoal.toFloat() / totalDays) * 100
-                    onResult(minGoalPercentage, maxGoalPercentage)
                 }
+
+                // Calculate percentages
+                val minGoalPercentage = if (totalWeekdays > 0) (daysMetMinGoal.toFloat() / totalWeekdays) * 100 else 0f
+                val maxGoalPercentage = if (totalWeekdays > 0) (daysMetMaxGoal.toFloat() / totalWeekdays) * 100 else 0f
+
+                val prevMinGoalPercentage = if (prevTotalWeekdays > 0) (prevDaysMetMinGoal.toFloat() / prevTotalWeekdays) * 100 else 0f
+                val prevMaxGoalPercentage = if (prevTotalWeekdays > 0) (prevDaysMetMaxGoal.toFloat() / prevTotalWeekdays) * 100 else 0f
+
+                onResult(
+                    currentPeriodStartDate.toFormattedString("dd/MM/yyyy"),
+                    minGoalPercentage,
+                    maxGoalPercentage,
+                    previousPeriodStartDate.toFormattedString("dd/MM/yyyy"),
+                    prevMinGoalPercentage,
+                    prevMaxGoalPercentage
+                )
+            } else {
+                // No data found
+                onResult("No Data Available", 0f, 0f, "No Data Available", 0f, 0f)
             }
         }
+    }
+    private fun fetchWeeklyData(selectedDate: Calendar, onResult: (List<Float>, List<String>) -> Unit) {
+        // Calculate the start and end dates for the 7-day range centered around the selected date
+        val startOfRange = selectedDate.clone() as Calendar
+        startOfRange.add(Calendar.DAY_OF_MONTH, -3)
+        val endOfRange = selectedDate.clone() as Calendar
+        endOfRange.add(Calendar.DAY_OF_MONTH, 3)
+
+        val dateLabels = mutableListOf<String>()
+        val weeklyData = MutableList(7) { 0f }
+
+        // Generate date labels for the 7-day range
+        val tempDate = startOfRange.clone() as Calendar
+        for (i in 0 until 7) {
+            dateLabels.add(tempDate.toFormattedString("dd/MM"))
+            tempDate.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val categoriesRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("categories")
+
+        categoriesRef.get().addOnSuccessListener { categoriesSnapshot ->
+            if (categoriesSnapshot.exists()) {
+                categoriesSnapshot.children.forEach { categorySnapshot ->
+                    val timesheetsRef = categorySnapshot.child("timesheets")
+
+                    timesheetsRef.children.forEach { timesheetSnapshot ->
+                        val timesheet = timesheetSnapshot.getValue(Timesheet::class.java)
+                        val timesheetDate = timesheet?.date?.toDate()
+                        val startTime = timesheet?.startTime?.toTime()
+                        val endTime = timesheet?.endTime?.toTime()
+
+                        if (timesheetDate != null && startTime != null && endTime != null && endTime.after(startTime)) {
+                            val hoursWorked = (endTime.time - startTime.time) / (1000.0 * 60 * 60)
+                            if (timesheetDate in startOfRange.time..endOfRange.time) {
+                                val dayIndex = ((timesheetDate.time - startOfRange.timeInMillis) / (1000 * 60 * 60 * 24)).toInt()
+                                if (dayIndex in 0..6) {
+                                    weeklyData[dayIndex] += hoursWorked.toFloat()
+                                }
+                            }
+                        }
+                    }
+                }
+                onResult(weeklyData, dateLabels)
+            }
+        }
+    }
+    private fun Date.toCalendar(): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.time = this
+        return calendar
+    }
+    private fun Calendar.toFormattedString(pattern: String = "dd"): String {
+        val format = SimpleDateFormat(pattern, Locale.getDefault())
+        return format.format(this.time)
     }
     private fun isWeekday(date: Date): Boolean {
         val calendar = Calendar.getInstance()

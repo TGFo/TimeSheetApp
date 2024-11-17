@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp"
     android:background="@drawable/background_gradient">
 
     <TextView
+        android:id="@+id/monthTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hours Worked Graph"
         android:textSize="18sp"
         android:textColor="#3C3C3C"
         android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
-    <com.opscappgroup2.timesheetapp.LineGraphView
+    <com.opscappgroup2.timesheetapp.BarChartView
         android:id="@+id/graphView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="300dp" />
+
+    <Button
+        android:id="@+id/selectDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_gravity="center"
+        android:background="@drawable/button_background" />
 
     <Button
         android:id="@+id/closeGraphButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Close"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
-        android:background="@drawable/button_background"/>
+        android:background="@drawable/button_background" />
 </LinearLayout>

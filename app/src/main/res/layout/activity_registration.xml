@@ -50,15 +50,14 @@
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:textColor="#3C3C3C"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/input_field_background"
         android:fontFamily="@font/custom_font"
+        android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:padding="12dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/input_field_background"/>
+        android:textColor="#3C3C3C" />
 
     <Button
         android:id="@+id/registerButton"

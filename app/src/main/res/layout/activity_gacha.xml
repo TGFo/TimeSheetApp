@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
+
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:background="@drawable/button_background"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+
+    <TextView
+        android:id="@+id/pointsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/custom_font"
+        android:padding="8dp"
+        android:text="0"
+        android:textColor="#3C3C3C"
+        android:textSize="16sp" />
+
+
+    <ImageView
+        android:id="@+id/glassesImageViewTop"
+        android:layout_width="272dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="-57dp"
+        android:layout_toEndOf="@id/pointsTextView"
+        app:srcCompat="@drawable/gamba_glasses" />
+
+    <ImageView
+        android:id="@+id/hiddenChuddieImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/summonButtonsLayout"
+        android:layout_below="@id/buttonBack"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/hidden_chuddie"
+        android:visibility="visible" />
+
+
+    <LinearLayout
+        android:id="@+id/summonButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp">
+
+
+        <Button
+            android:id="@+id/buttonOneSummon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1x Summon 15"
+            android:textColor="#3C3C3C"
+            android:fontFamily="@font/custom_font"
+            android:background="@drawable/button_background" />
+
+
+        <ImageView
+            android:id="@+id/glassesImageViewButton"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            app:srcCompat="@drawable/gamba_glasses" />
+    </LinearLayout>
+</RelativeLayout>

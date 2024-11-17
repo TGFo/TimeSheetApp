@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var userId: String
     private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         // Initialize Firebase Auth and Realtime Database
         auth = FirebaseAuth.getInstance()
+        userId = auth.currentUser?.uid ?: "default_user"
         database = FirebaseDatabase.getInstance()
 
         val usernameEditText: EditText = findViewById(R.id.usernameEditText)
@@ -43,7 +45,6 @@ class RegistrationActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (!validateInput(username, businessName, email, password)) return@setOnClickListener
-
             registerUser(username, businessName, email, password)
         }
     }
@@ -109,6 +110,7 @@ class RegistrationActivity : AppCompatActivity() {
     // Navigate to the login screen
     private fun navigateToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
+
         finish()
     }
 
@@ -116,4 +118,5 @@ class RegistrationActivity : AppCompatActivity() {
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
 }

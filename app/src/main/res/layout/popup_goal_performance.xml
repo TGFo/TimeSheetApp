@@ -15,6 +15,23 @@
         android:fontFamily="@font/custom_font"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"/>
+    <TextView
+        android:id="@+id/currentPeriodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Period Start: No Data Available"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/prevPeriodTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Period Start: No Data Available"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/minGoalTextView"
@@ -34,11 +51,30 @@
         android:fontFamily="@font/custom_font"
         android:layout_marginBottom="16dp"/>
 
+    <TextView
+        android:id="@+id/prevMinGoalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Min Goal: 0%"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/prevMaxGoalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Max Goal: 0%"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
+        android:layout_marginBottom="16dp"/>
     <Button
         android:id="@+id/closeStatsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Close"
         android:layout_gravity="center"
+        android:textColor="#3C3C3C"
+        android:fontFamily="@font/custom_font"
         android:background="@drawable/button_background"/>
 </LinearLayout>
