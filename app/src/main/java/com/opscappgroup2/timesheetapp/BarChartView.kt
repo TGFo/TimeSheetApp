@@ -68,7 +68,10 @@ class BarChartView(context: Context, attrs: AttributeSet?) : View(context, attrs
 
         // Draw bars and date labels
         for (i in dataPoints.indices) {
-            val barHeight = (dataPoints[i] / maxDataPoint) * maxHeight
+            // Cap the data point value at 14 hours
+            val cappedDataPoint = minOf(dataPoints[i], maxDataPoint)
+            val barHeight = (cappedDataPoint / maxDataPoint) * maxHeight
+
             val left = i * 2 * barWidth + barWidth / 2 + leftPadding
             val top = height - barHeight - 50f
             val right = left + barWidth

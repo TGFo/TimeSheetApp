@@ -91,4 +91,5 @@ class LoginActivity : AppCompatActivity() {
         startActivity(Intent(this, NavigationActivity::class.java))
         finish()
     }
+
 }

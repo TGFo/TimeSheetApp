@@ -309,6 +309,7 @@ class HoursActivity : AppCompatActivity() {
                             val startTime = timesheet?.startTime?.toTime()
                             val endTime = timesheet?.endTime?.toTime()
 
+                            // Calculate hours worked
                             val hoursWorked = if (startTime != null && endTime != null && endTime.after(startTime)) {
                                 (endTime.time - startTime.time) / (1000.0 * 60 * 60)
                             } else {

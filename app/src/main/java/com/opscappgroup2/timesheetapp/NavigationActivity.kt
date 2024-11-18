@@ -12,6 +12,7 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var buttonTimesheetList: Button
     private lateinit var buttonProfilePage: Button
     private lateinit var buttonGacha: Button
+    private lateinit var buttonChuddieList: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,29 +23,30 @@ class NavigationActivity : AppCompatActivity() {
         buttonTimesheetList = findViewById(R.id.buttonTimesheetList)
         buttonProfilePage = findViewById(R.id.buttonProfilePage)
         buttonGacha = findViewById(R.id.buttonGacha)
+        buttonChuddieList = findViewById(R.id.buttonChuddieList)
 
         buttonCategories.setOnClickListener {
-            val intent = Intent(this, CategoriesActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, CategoriesActivity::class.java))
         }
 
         buttonHours.setOnClickListener {
-            val intent = Intent(this, HoursActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, HoursActivity::class.java))
         }
 
         buttonTimesheetList.setOnClickListener {
-            val intent = Intent(this, TimesheetListActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, TimesheetListActivity::class.java))
         }
 
         buttonProfilePage.setOnClickListener {
-            val intent = Intent(this, ProfilePageActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ProfilePageActivity::class.java))
         }
+
         buttonGacha.setOnClickListener {
-            val intent = Intent(this, GachaActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, GachaActivity::class.java))
+        }
+
+        buttonChuddieList.setOnClickListener {
+            startActivity(Intent(this, ChuddieListActivity::class.java))
         }
     }
 }

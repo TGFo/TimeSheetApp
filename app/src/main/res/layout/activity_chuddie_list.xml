@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient"
+    android:gravity="center">
+    <Button
+        android:id="@+id/buttonBackToNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/custom_font"
+        android:gravity="center"
+        android:text="Back to Navigation"
+        android:textColor="#3C3C3C" />
+    <GridLayout
+        android:id="@+id/chuddieGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:padding="8dp"
+        android:alignmentMode="alignMargins"
+        android:useDefaultMargins="true">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/chuddieImage1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/base_chuddie"
+                android:contentDescription="ChudJack Image" />
+
+            <TextView
+                android:id="@+id/chuddieText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 ChudJack"
+                android:textColor="#3C3C3C"
+                android:fontFamily="@font/custom_font"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/chuddieImage2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/balding_chuddie"
+                android:contentDescription="MidLifer Image" />
+
+            <TextView
+                android:id="@+id/chuddieText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 MidLifer"
+                android:textColor="#3C3C3C"
+                android:fontFamily="@font/custom_font"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/chuddieImage3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/serene_chuddie"
+                android:contentDescription="Serenity Image" />
+
+            <TextView
+                android:id="@+id/chuddieText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Serenity"
+                android:textColor="#3C3C3C"
+                android:fontFamily="@font/custom_font"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/chuddieImage4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/giga_chuddie"
+                android:contentDescription="GigaChud Image" />
+
+            <TextView
+                android:id="@+id/chuddieText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 GigaChud"
+                android:textColor="#3C3C3C"
+                android:fontFamily="@font/custom_font"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/chuddieImage5"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/femcell_chuddie"
+                android:contentDescription="Femcel Image" />
+
+            <TextView
+                android:id="@+id/chuddieText5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 Femcel"
+                android:textColor="#3C3C3C"
+                android:fontFamily="@font/custom_font"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/chuddieImage6"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/soyless_chuddie"
+                android:contentDescription="SoylessOne Image" />
+
+            <TextView
+                android:id="@+id/chuddieText6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 SoylessOne"
+                android:textColor="#3C3C3C"
+                android:fontFamily="@font/custom_font"
+                android:gravity="center"/>
+        </LinearLayout>
+    </GridLayout>
+
+
+</LinearLayout>

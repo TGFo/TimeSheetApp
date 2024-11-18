@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -6,7 +5,7 @@
     android:padding="16dp"
     android:background="@drawable/background_gradient">
 
-
+    <!-- Date Selection Buttons -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -51,11 +50,14 @@
             android:fontFamily="@font/custom_font"/>
     </LinearLayout>
 
-
+    <!-- Timesheet RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timesheetRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Back to Navigation Button -->
     <Button
         android:id="@+id/backToNavigationButton"
         android:layout_width="wrap_content"

@@ -39,6 +39,7 @@
         <activity android:name=".TimesheetListActivity" android:exported="false" />
         <activity android:name=".ProfilePageActivity" />
         <activity android:name=".GachaActivity" />
+        <activity android:name=".ChuddieListActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

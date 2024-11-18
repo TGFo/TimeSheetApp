@@ -43,7 +43,7 @@
         app:srcCompat="@drawable/gamba_glasses" />
 
     <ImageView
-        android:id="@+id/hiddenChuddieImage"
+        android:id="@+id/gachaImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@id/summonButtonsLayout"
