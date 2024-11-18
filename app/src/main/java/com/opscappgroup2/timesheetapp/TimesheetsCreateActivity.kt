@@ -23,7 +23,7 @@ import java.util.*
 
 class TimesheetsCreateActivity : AppCompatActivity() {
 
-    private lateinit var photoImageView: ImageView
+
     private var selectedImageUri: Uri? = null
     private var selectedCategoryId: String? = null
     private lateinit var auth: FirebaseAuth
@@ -43,7 +43,7 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         userId = auth.currentUser?.uid ?: "default_user"
 
-        photoImageView = findViewById(R.id.photoImageView)
+
         val dateEditText: EditText = findViewById(R.id.dateEditText)
         startTimeTextView = findViewById(R.id.startTimeTextView)
         endTimeTextView = findViewById(R.id.endTimeTextView)
@@ -56,8 +56,7 @@ class TimesheetsCreateActivity : AppCompatActivity() {
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
                 selectedImageUri = result.data?.data
-                photoImageView.setImageURI(selectedImageUri)
-                photoImageView.visibility = View.VISIBLE
+
             }
         }
 
